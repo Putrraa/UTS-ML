@@ -1,0 +1,59 @@
+{
+  "accuracy": 0.7377,
+  "precision": 0.7727,
+  "recall": 0.6071,
+  "accuracy_train": 0.8838,
+  "cv_accuracy_terbaik": 0.813,
+  "confusion_matrix": {
+    "tn": 28,
+    "fp": 5,
+    "fn": 11,
+    "tp": 17
+  },
+  "best_params": {
+    "class_weight": null,
+    "criterion": "gini",
+    "max_depth": 4,
+    "min_samples_leaf": 5
+  },
+  "fitur": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "info_data": {
+    "jumlah_baris_awal": 303,
+    "jumlah_kolom": 14,
+    "missing_value": 0,
+    "duplikat": 1,
+    "jumlah_baris_akhir": 302,
+    "distribusi_kelas": {
+      "0": 164,
+      "1": 138
+    },
+    "data_training": 241,
+    "data_testing": 61
+  },
+  "random_state": 42,
+  "test_size": 0.2,
+  "importance": {
+    "thal": 0.4133,
+    "cp": 0.1744,
+    "ca": 0.1692,
+    "slope": 0.094,
+    "oldpeak": 0.0769,
+    "sex": 0.0331,
+    "chol": 0.0213,
+    "age": 0.0178
+  }
+}

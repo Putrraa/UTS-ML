@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Memperkirakan penyakit jantung dari 13 data pemeriksaan</h1>
+  <p class="lead">Model Decision Tree dilatih pada {{ info.jumlah_baris_akhir }} pasien dari dataset Cleveland, lalu dipakai untuk menilai data pasien baru.</p>
+  <a class="btn" href="{{ url_for('uji') }}">Coba uji data baru</a>
+</section>
+
+<section class="block">
+  <h2>Sumber dan karakteristik dataset</h2>
+  <p>Dataset <strong>Heart Disease (Cleveland)</strong> berasal dari UCI Machine Learning Repository dan merupakan data yang sama dengan yang dipakai pada artikel jurnal acuan. Salinan CSV yang dipakai di proyek ini berasal dari repositori publik di GitHub.</p>
+  <dl class="facts">
+    <div><dt>Baris awal</dt><dd>{{ info.jumlah_baris_awal }}</dd></div>
+    <div><dt>Kolom</dt><dd>{{ info.jumlah_kolom }} (13 fitur + 1 target)</dd></div>
+    <div><dt>Missing value</dt><dd>{{ info.missing_value }}</dd></div>
+    <div><dt>Data duplikat</dt><dd>{{ info.duplikat }}</dd></div>
+    <div><dt>Tidak sakit</dt><dd>{{ info.distribusi_kelas['0'] }}</dd></div>
+    <div><dt>Penyakit jantung</dt><dd>{{ info.distribusi_kelas['1'] }}</dd></div>
+  </dl>
+  <div class="scroll">
+    <table>
+      <thead><tr>{% for c in columns %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+      <tbody>{% for r in sample %}<tr>{% for c in columns %}<td>{{ r[c] }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+    </table>
+  </div>
+  <p class="note">Delapan baris pertama dataset. Kolom <code>target</code> pada file asli bernilai 0 untuk pasien penyakit jantung dan 1 untuk yang sehat; di aplikasi ini nilainya dibalik agar 1 berarti penyakit jantung.</p>
+</section>
+
+<section class="block">
+  <h2>Preprocessing</h2>
+  <ol class="steps">
+    <li><strong>Cek missing value.</strong> Ditemukan {{ info.missing_value }} nilai kosong, jadi tidak ada baris yang dibuang karena hal ini.</li>
+    <li><strong>Hapus duplikat.</strong> {{ info.duplikat }} baris duplikat dihapus, tersisa {{ info.jumlah_baris_akhir }} baris.</li>
+    <li><strong>Balik label target.</strong> Kelas penyakit jantung dijadikan kelas positif (1) supaya precision dan recall bermakna secara medis.</li>
+    <li><strong>Tanpa scaling.</strong> Decision Tree membagi data berdasarkan ambang nilai, sehingga skala fitur tidak memengaruhi hasil.</li>
+    <li><strong>Bagi data.</strong> {{ info.data_training }} data training dan {{ info.data_testing }} data testing (80:20), dibagi stratified agar proporsi kelas terjaga.</li>
+  </ol>
+</section>
+{% endblock %}

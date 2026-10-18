@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Perbandingan dengan jurnal{% endblock %}
+{% block content %}
+<section class="block first">
+  <h1>Perbandingan dengan artikel jurnal</h1>
+  <p>Acuan: <a href="{{ j.url }}">{{ j.judul }}</a>, {{ j.penerbit }}. Dataset di jurnal: {{ j.dataset }}.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Metrik</th><th>Jurnal</th><th>Proyek ini</th></tr></thead>
+      <tbody>
+        <tr><th>Accuracy</th><td>{{ '%.2f'|format(j.accuracy * 100) }}%</td><td>{{ '%.2f'|format(m.accuracy * 100) }}%</td></tr>
+        <tr><th>Precision</th><td>{{ ('%.2f'|format(j.precision * 100) ~ '%') if j.precision else 'belum diisi' }}</td><td>{{ '%.2f'|format(m.precision * 100) }}%</td></tr>
+        <tr><th>Recall</th><td>{{ ('%.2f'|format(j.recall * 100) ~ '%') if j.recall else 'belum diisi' }}</td><td>{{ '%.2f'|format(m.recall * 100) }}%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="block">
+  <h2>Persamaan</h2>
+  <ul>
+    <li>Algoritma sama: Decision Tree untuk klasifikasi penyakit jantung.</li>
+    <li>Dataset berasal dari Cleveland Clinic Foundation (UCI) dengan 13 fitur klinis.</li>
+    <li>Evaluasi memakai confusion matrix (accuracy, precision, recall).</li>
+  </ul>
+</section>
+<section class="block">
+  <h2>Perbedaan dan kemungkinan penyebabnya</h2>
+  <ul>
+    <li><strong>Akurasi proyek ini lebih rendah.</strong> Pembagian data, nilai <code>random_state</code>, dan ukuran data testing berbeda. Dengan hanya {{ m.info_data.data_testing }} data uji, satu atau dua prediksi yang berbeda sudah menggeser akurasi beberapa persen.</li>
+    <li><strong>Hyperparameter.</strong> Proyek ini membatasi kedalaman pohon (max depth {{ m.best_params.max_depth }}, min samples leaf {{ m.best_params.min_samples_leaf }}) lewat cross validation untuk menekan overfitting. Pohon yang tidak dibatasi biasanya terlihat lebih akurat pada data uji kecil, tetapi kurang stabil.</li>
+    <li><strong>Preprocessing.</strong> Jurnal mungkin memakai tahap pembersihan atau transformasi yang berbeda, termasuk penanganan nilai <code>ca</code> dan <code>thal</code> yang kosong pada data asli.</li>
+    <li><strong>Kode kategori.</strong> Salinan CSV yang dipakai di sini memakai pengodean yang berbeda dari berkas asli UCI untuk beberapa kolom, sehingga hasil tidak bisa dibandingkan satu lawan satu.</li>
+    <li><strong>Algoritma.</strong> Periksa algoritma pembentuk pohon di jurnal (misalnya ID3 atau C4.5). scikit-learn memakai versi optimasi CART dengan kriteria gini atau entropy, sehingga struktur pohonnya bisa berbeda.</li>
+  </ul>
+  <p class="note">Sebelum dikumpulkan, cocokkan paragraf ini dengan isi jurnal (jumlah data uji, rasio pembagian, parameter, dan alat yang dipakai), lalu sesuaikan atau hapus poin yang tidak sesuai. Nilai di <code>JURNAL</code> pada <code>app.py</code> bisa diubah.</p>
+</section>
+{% endblock %}

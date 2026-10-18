@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Klasifikasi Penyakit Jantung{% endblock %} · Decision Tree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="{{ url_for('index') }}">Jantung<span>Tree</span></a>
+    <nav>
+      <a href="{{ url_for('index') }}" {% if page == 'index' %}aria-current="page"{% endif %}>Dataset</a>
+      <a href="{{ url_for('model_page') }}" {% if page == 'model' %}aria-current="page"{% endif %}>Model &amp; evaluasi</a>
+      <a href="{{ url_for('uji') }}" {% if page == 'uji' %}aria-current="page"{% endif %}>Uji data baru</a>
+      <a href="{{ url_for('perbandingan') }}" {% if page == 'perbandingan' %}aria-current="page"{% endif %}>Banding jurnal</a>
+    </nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer>
+    UTS Kecerdasan Buatan 2026 · Politeknik Negeri Malang PSDKU Kediri · Proyek pembelajaran, bukan alat diagnosis medis.
+  </footer>
+</body>
+</html>
